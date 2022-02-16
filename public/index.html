@@ -92,6 +92,31 @@
 
     <script>
         const socket = io("http://localhost:5000");
+        // output, name, message, send, feedback
+        let output = document.getElementById("output");
+        let name = document.getElementById("name");
+        let message = document.getElementById("message");
+        let send = document.getElementById("send");
+        let feedback = document.getElementById("feedback");
+
+        send.addEventListener("click", () => {
+          let data = {
+            name: name.value,
+            message: message.value, 
+          };
+
+          // send data client side to server side
+          socket.emit('chat', data);
+        });
+
+        // receive data from client side
+        socket.on('chat', (data) => {
+          // console.log(data);
+          output.innerHTML += `<p><strong>${data.name}</strong> : ${data.message}</p>`;
+          // send data and clear data input box
+          name.value = "";
+          message.value = "";
+        });
       </script>
 </body>
 </html>
