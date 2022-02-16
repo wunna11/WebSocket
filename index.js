@@ -24,4 +24,8 @@ io.on('connection', (socket) => {
         // send data to client side
         io.sockets.emit('chat', data);
     });
+
+    socket.on('typing', (name) => {
+        socket.broadcast.emit('typing', name);
+    });
 });

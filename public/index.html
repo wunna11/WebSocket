@@ -109,6 +109,10 @@
           socket.emit('chat', data);
         });
 
+        message.addEventListener("keypress", () => {
+          socket.emit("typing", name.value);
+        });
+
         // receive data from client side
         socket.on('chat', (data) => {
           // console.log(data);
@@ -116,6 +120,14 @@
           // send data and clear data input box
           name.value = "";
           message.value = "";
+          feedback.innerHTML = "";
+        });
+
+        socket.on('typing', (name) => {
+          feedback.innerHTML = `<p><em>${name} is typing...</em></p>`;
+          setTimeout(() => {
+            feedback.innerHTML = "";
+          }, 3000);
         });
       </script>
 </body>
